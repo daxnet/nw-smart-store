@@ -1,0 +1,171 @@
+{
+  "tables": [
+    {
+      "table_name": "customers",
+      "description": "Contains information about customers who purchase products from the company. Each customer record includes company details, contact information, and address data. The customer_id uniquely identifies each customer.",
+      "fields": [
+        {"name": "customer_id", "type": "nchar(5)", "description": "Primary key. Uniquely identifies each customer with a 5-character code."},
+        {"name": "company_name", "type": "nvarchar(40)", "description": "The full name of the customer's company."},
+        {"name": "contact_name", "type": "nvarchar(30)", "description": "Name of the primary contact person at the customer's company."},
+        {"name": "contact_title", "type": "nvarchar(30)", "description": "Job title or role of the contact person."},
+        {"name": "address", "type": "nvarchar(60)", "description": "Street address of the customer."},
+        {"name": "city", "type": "nvarchar(15)", "description": "City where the customer is located."},
+        {"name": "region", "type": "nvarchar(15)", "description": "Region or state of the customer. Nullable."},
+        {"name": "postal_code", "type": "nvarchar(10)", "description": "Postal or ZIP code for the customer's address."},
+        {"name": "country", "type": "nvarchar(15)", "description": "Country where the customer is located."},
+        {"name": "phone", "type": "nvarchar(24)", "description": "Primary phone number for the customer."},
+        {"name": "fax", "type": "nvarchar(24)", "description": "Fax number for the customer. Nullable."}
+      ]
+    },
+    {
+      "table_name": "employees",
+      "description": "Stores detailed information about the company's employees. Each employee has personal details, job information, contact data, and a reference to their manager (if any). The employee_id uniquely identifies each employee.",
+      "fields": [
+        {"name": "employee_id", "type": "int", "description": "Primary key. Uniquely identifies each employee."},
+        {"name": "last_name", "type": "nvarchar(20)", "description": "Employee's last name."},
+        {"name": "first_name", "type": "nvarchar(10)", "description": "Employee's first name."},
+        {"name": "title", "type": "nvarchar(30)", "description": "Job title of the employee (e.g., Sales Representative, Manager)."},
+        {"name": "title_of_courtesy", "type": "nvarchar(25)", "description": "Courtesy title, such as Mr., Ms., Dr., etc."},
+        {"name": "birth_date", "type": "datetime", "description": "Date of birth of the employee."},
+        {"name": "hire_date", "type": "datetime", "description": "Date the employee was hired."},
+        {"name": "address", "type": "nvarchar(60)", "description": "Home address of the employee."},
+        {"name": "city", "type": "nvarchar(15)", "description": "City where the employee resides."},
+        {"name": "region", "type": "nvarchar(15)", "description": "Region or state where the employee resides. Nullable."},
+        {"name": "postal_code", "type": "nvarchar(10)", "description": "Postal or ZIP code of the employee's address."},
+        {"name": "country", "type": "nvarchar(15)", "description": "Country where the employee resides."},
+        {"name": "home_phone", "type": "nvarchar(24)", "description": "Home phone number of the employee."},
+        {"name": "extension", "type": "nvarchar(4)", "description": "Internal phone extension for company use."},
+        {"name": "photo", "type": "image", "description": "Binary data representing the employee's photo."},
+        {"name": "notes", "type": "ntext", "description": "Additional notes about the employee, such as biography or work history."},
+        {"name": "reports_to", "type": "int", "description": "Foreign key referencing the employee's direct manager (employee_id). Nullable for top-level employees."},
+        {"name": "photo_path", "type": "nvarchar(255)", "description": "Path or filename for the employee's photo."}
+      ]
+    },
+    {
+      "table_name": "suppliers",
+      "description": "Contains information about suppliers who provide products to the company. Each supplier record includes company details, contact information, address, and website. The supplier_id uniquely identifies each supplier.",
+      "fields": [
+        {"name": "supplier_id", "type": "int", "description": "Primary key. Uniquely identifies each supplier."},
+        {"name": "company_name", "type": "nvarchar(40)", "description": "Full name of the supplier's company."},
+        {"name": "contact_name", "type": "nvarchar(30)", "description": "Name of the primary contact person at the supplier."},
+        {"name": "contact_title", "type": "nvarchar(30)", "description": "Job title or role of the contact person."},
+        {"name": "address", "type": "nvarchar(60)", "description": "Street address of the supplier."},
+        {"name": "city", "type": "nvarchar(15)", "description": "City where the supplier is located."},
+        {"name": "region", "type": "nvarchar(15)", "description": "Region or state of the supplier. Nullable."},
+        {"name": "postal_code", "type": "nvarchar(10)", "description": "Postal or ZIP code of the supplier's address."},
+        {"name": "country", "type": "nvarchar(15)", "description": "Country where the supplier is located."},
+        {"name": "phone", "type": "nvarchar(24)", "description": "Primary phone number for the supplier."},
+        {"name": "fax", "type": "nvarchar(24)", "description": "Fax number for the supplier. Nullable."},
+        {"name": "homepage", "type": "ntext", "description": "Web page or URL for the supplier, may include catalogs or product listings."}
+      ]
+    },
+    {
+      "table_name": "categories",
+      "description": "Defines product categories. Each product belongs to one category. Each category has a unique category_id, a name, a description, and an optional image.",
+      "fields": [
+        {"name": "category_id", "type": "int", "description": "Primary key. Uniquely identifies each product category."},
+        {"name": "category_name", "type": "nvarchar(15)", "description": "Name of the product category."},
+        {"name": "description", "type": "ntext", "description": "Detailed description of the category."},
+        {"name": "picture", "type": "image", "description": "Binary data for an image representing the category."}
+      ]
+    },
+    {
+      "table_name": "products",
+      "description": "Contains all products sold by the company, including product name, supplier, category, price, and inventory information. Each product has a unique product_id.",
+      "fields": [
+        {"name": "product_id", "type": "int", "description": "Primary key. Uniquely identifies each product."},
+        {"name": "product_name", "type": "nvarchar(40)", "description": "Name of the product."},
+        {"name": "supplier_id", "type": "int", "description": "Foreign key referencing the supplier providing this product."},
+        {"name": "category_id", "type": "int", "description": "Foreign key referencing the category this product belongs to."},
+        {"name": "quantity_per_unit", "type": "nvarchar(20)", "description": "Description of the quantity per unit, e.g., '24 - 12 oz bottles'."},
+        {"name": "unit_price", "type": "money", "description": "Unit price of the product."},
+        {"name": "units_in_stock", "type": "smallint", "description": "Number of units currently in stock."},
+        {"name": "units_on_order", "type": "smallint", "description": "Number of units already ordered but not yet received."},
+        {"name": "reorder_level", "type": "smallint", "description": "Stock level at which new orders should be placed."},
+        {"name": "discontinued", "type": "bit", "description": "Indicates whether the product is discontinued (1) or available (0)."}
+      ]
+    },
+    {
+      "table_name": "orders",
+      "description": "Contains main information about customer orders, such as the customer, responsible employee, order and shipping dates, shipping method, freight, and delivery address. Each order has a unique order_id.",
+      "fields": [
+        {"name": "order_id", "type": "int", "description": "Primary key. Uniquely identifies each order."},
+        {"name": "customer_id", "type": "nchar(5)", "description": "Foreign key referencing the customer who placed the order."},
+        {"name": "employee_id", "type": "int", "description": "Foreign key referencing the employee responsible for the order."},
+        {"name": "order_date", "type": "datetime", "description": "Date when the order was created."},
+        {"name": "required_date", "type": "datetime", "description": "Date by which the customer requests delivery."},
+        {"name": "shipped_date", "type": "datetime", "description": "Date when the order was actually shipped."},
+        {"name": "ship_via", "type": "int", "description": "Foreign key referencing the shipper responsible for delivery."},
+        {"name": "freight", "type": "money", "description": "Shipping cost charged for the order."},
+        {"name": "ship_name", "type": "nvarchar(40)", "description": "Name of the recipient for shipping."},
+        {"name": "ship_address", "type": "nvarchar(60)", "description": "Shipping address."},
+        {"name": "ship_city", "type": "nvarchar(15)", "description": "City for shipping address."},
+        {"name": "ship_region", "type": "nvarchar(15)", "description": "Region or state for shipping address. Nullable."},
+        {"name": "ship_postal_code", "type": "nvarchar(10)", "description": "Postal or ZIP code for shipping address."},
+        {"name": "ship_country", "type": "nvarchar(15)", "description": "Country for shipping address."}
+      ]
+    },
+    {
+      "table_name": "order_details",
+      "description": "Contains line items for each order, specifying which products are included in an order, their quantity, unit price, and any discount applied. The combination of order_id and product_id forms a composite primary key.",
+      "fields": [
+        {"name": "order_id", "type": "int", "description": "Foreign key referencing the related order."},
+        {"name": "product_id", "type": "int", "description": "Foreign key referencing the related product."},
+        {"name": "unit_price", "type": "money", "description": "Unit price for the product at the time of the order."},
+        {"name": "quantity", "type": "smallint", "description": "Quantity of the product ordered."},
+        {"name": "discount", "type": "real", "description": "Discount applied to this line item, as a value between 0 and 1."}
+      ]
+    },
+    {
+      "table_name": "shippers",
+      "description": "Contains information about shipping companies used to deliver orders. Each shipper has a unique shipper_id and company details.",
+      "fields": [
+        {"name": "shipper_id", "type": "int", "description": "Primary key. Uniquely identifies each shipping company."},
+        {"name": "company_name", "type": "nvarchar(40)", "description": "Name of the shipping company."},
+        {"name": "phone", "type": "nvarchar(24)", "description": "Phone number for the shipping company."}
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": {"table": "orders", "field": "customer_id"},
+      "to": {"table": "customers", "field": "customer_id"},
+      "description": "Each order is placed by a customer. The customer_id in orders links to the primary key in customers."
+    },
+    {
+      "from": {"table": "orders", "field": "employee_id"},
+      "to": {"table": "employees", "field": "employee_id"},
+      "description": "Each order is handled by a specific employee. The employee_id in orders links to the primary key in employees."
+    },
+    {
+      "from": {"table": "orders", "field": "ship_via"},
+      "to": {"table": "shippers", "field": "shipper_id"},
+      "description": "Each order is shipped via a shipping company. The ship_via field in orders links to the primary key in shippers."
+    },
+    {
+      "from": {"table": "order_details", "field": "order_id"},
+      "to": {"table": "orders", "field": "order_id"},
+      "description": "Each order_details record is associated with a specific order. The order_id links to the primary key in orders."
+    },
+    {
+      "from": {"table": "order_details", "field": "product_id"},
+      "to": {"table": "products", "field": "product_id"},
+      "description": "Each order_details record specifies a product included in the order. The product_id links to the primary key in products."
+    },
+    {
+      "from": {"table": "products", "field": "supplier_id"},
+      "to": {"table": "suppliers", "field": "supplier_id"},
+      "description": "Each product is supplied by a supplier. The supplier_id in products links to the primary key in suppliers."
+    },
+    {
+      "from": {"table": "products", "field": "category_id"},
+      "to": {"table": "categories", "field": "category_id"},
+      "description": "Each product belongs to a category. The category_id in products links to the primary key in categories."
+    },
+    {
+      "from": {"table": "employees", "field": "reports_to"},
+      "to": {"table": "employees", "field": "employee_id"},
+      "description": "Employees can have managers. The reports_to field is a self-referencing foreign key pointing to the employee_id of the manager."
+    }
+  ]
+}

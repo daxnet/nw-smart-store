@@ -1,0 +1,6 @@
+@Nss.ApiService_HostAddress = http://localhost:5030
+
+GET {{Nss.ApiService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

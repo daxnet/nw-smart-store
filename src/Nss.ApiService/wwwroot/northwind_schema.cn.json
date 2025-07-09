@@ -1,0 +1,171 @@
+{
+  "tables": [
+    {
+      "table_name": "customers",
+      "description": "存储所有购买产品的客户信息，包括公司、联系人、地址和联系方式等。每个客户都有唯一的 customer_id。",
+      "fields": [
+        {"name": "customer_id", "type": "nchar(5)", "description": "客户的唯一标识符，5位字符代码，用于区分不同客户。"},
+        {"name": "company_name", "type": "nvarchar(40)", "description": "客户公司全称，用于展示和检索客户信息。"},
+        {"name": "contact_name", "type": "nvarchar(30)", "description": "客户主要联系人姓名，便于沟通与服务。"},
+        {"name": "contact_title", "type": "nvarchar(30)", "description": "联系人职位头衔，如经理、采购等，有助于了解联系人身份。"},
+        {"name": "address", "type": "nvarchar(60)", "description": "客户的详细街道地址，用于邮寄和快递。"},
+        {"name": "city", "type": "nvarchar(15)", "description": "客户所在城市。"},
+        {"name": "region", "type": "nvarchar(15)", "description": "客户所在地区或省份，可能为空。"},
+        {"name": "postal_code", "type": "nvarchar(10)", "description": "客户地址的邮政编码。"},
+        {"name": "country", "type": "nvarchar(15)", "description": "客户所在国家。"},
+        {"name": "phone", "type": "nvarchar(24)", "description": "客户的主要联系电话号码。"},
+        {"name": "fax", "type": "nvarchar(24)", "description": "客户的传真号码，部分客户可能为空。"}
+      ]
+    },
+    {
+      "table_name": "employees",
+      "description": "存储公司员工详细信息，包括姓名、职位、联系方式、上级关系等。每个员工都有唯一的 employee_id。",
+      "fields": [
+        {"name": "employee_id", "type": "int", "description": "员工的唯一标识符，用于区分不同员工。"},
+        {"name": "last_name", "type": "nvarchar(20)", "description": "员工的姓氏。"},
+        {"name": "first_name", "type": "nvarchar(10)", "description": "员工的名字。"},
+        {"name": "title", "type": "nvarchar(30)", "description": "员工的职位名称，例如销售代表、经理等。"},
+        {"name": "title_of_courtesy", "type": "nvarchar(25)", "description": "员工的尊称，如Mr.、Ms.、Dr.等。"},
+        {"name": "birth_date", "type": "datetime", "description": "员工出生日期，用于年龄和工龄计算。"},
+        {"name": "hire_date", "type": "datetime", "description": "员工入职日期。"},
+        {"name": "address", "type": "nvarchar(60)", "description": "员工家庭住址。"},
+        {"name": "city", "type": "nvarchar(15)", "description": "员工所在城市。"},
+        {"name": "region", "type": "nvarchar(15)", "description": "员工所在地区或省份，可能为空。"},
+        {"name": "postal_code", "type": "nvarchar(10)", "description": "员工家庭住址的邮政编码。"},
+        {"name": "country", "type": "nvarchar(15)", "description": "员工所在国家。"},
+        {"name": "home_phone", "type": "nvarchar(24)", "description": "员工家庭联系电话。"},
+        {"name": "extension", "type": "nvarchar(4)", "description": "公司分机号码，便于内部联系。"},
+        {"name": "photo", "type": "image", "description": "员工照片的二进制数据，用于员工档案展示。"},
+        {"name": "notes", "type": "ntext", "description": "关于员工的备注信息，例如个人简介、工作经历等。"},
+        {"name": "reports_to", "type": "int", "description": "员工的直接上级 employee_id，构建组织结构层级，顶级管理者该字段为空。"},
+        {"name": "photo_path", "type": "nvarchar(255)", "description": "员工照片的存储路径或文件名。"}
+      ]
+    },
+    {
+      "table_name": "suppliers",
+      "description": "存储所有产品供应商的详细信息，包括公司、联系人、地址及网站等。每个供应商都有唯一的 supplier_id。",
+      "fields": [
+        {"name": "supplier_id", "type": "int", "description": "供应商的唯一标识符，用于区分不同供应商。"},
+        {"name": "company_name", "type": "nvarchar(40)", "description": "供应商公司全称。"},
+        {"name": "contact_name", "type": "nvarchar(30)", "description": "供应商主要联系人姓名。"},
+        {"name": "contact_title", "type": "nvarchar(30)", "description": "联系人职位头衔。"},
+        {"name": "address", "type": "nvarchar(60)", "description": "供应商详细地址。"},
+        {"name": "city", "type": "nvarchar(15)", "description": "供应商所在城市。"},
+        {"name": "region", "type": "nvarchar(15)", "description": "供应商所在地区或省份，可能为空。"},
+        {"name": "postal_code", "type": "nvarchar(10)", "description": "供应商地址的邮政编码。"},
+        {"name": "country", "type": "nvarchar(15)", "description": "供应商所在国家。"},
+        {"name": "phone", "type": "nvarchar(24)", "description": "供应商主要联系电话。"},
+        {"name": "fax", "type": "nvarchar(24)", "description": "供应商传真号码，可能为空。"},
+        {"name": "homepage", "type": "ntext", "description": "供应商公司网站地址，可能包含产品目录等信息。"}
+      ]
+    },
+    {
+      "table_name": "categories",
+      "description": "存储产品类别信息，每类产品归属于一个类别。每个类别有唯一的 category_id。",
+      "fields": [
+        {"name": "category_id", "type": "int", "description": "产品类别的唯一标识符。"},
+        {"name": "category_name", "type": "nvarchar(15)", "description": "产品类别名称。"},
+        {"name": "description", "type": "ntext", "description": "类别的详细描述，便于理解类别用途。"},
+        {"name": "picture", "type": "image", "description": "类别图片的二进制数据，可用于前端展示。"}
+      ]
+    },
+    {
+      "table_name": "products",
+      "description": "存储公司销售的所有产品信息，包括名称、类别、供应商、价格、库存等。每个产品有唯一的 product_id。",
+      "fields": [
+        {"name": "product_id", "type": "int", "description": "产品的唯一标识符。"},
+        {"name": "product_name", "type": "nvarchar(40)", "description": "产品名称。"},
+        {"name": "supplier_id", "type": "int", "description": "产品供应商的唯一标识符，关联 suppliers 表。"},
+        {"name": "category_id", "type": "int", "description": "产品所属类别的唯一标识符，关联 categories 表。"},
+        {"name": "quantity_per_unit", "type": "nvarchar(20)", "description": "每单位的产品数量描述，如“24 - 12 oz bottles”。"},
+        {"name": "unit_price", "type": "money", "description": "产品单价。"},
+        {"name": "units_in_stock", "type": "smallint", "description": "当前库存数量。"},
+        {"name": "units_on_order", "type": "smallint", "description": "已经下单但未到货的数量。"},
+        {"name": "reorder_level", "type": "smallint", "description": "库存警戒线，低于该值需补货。"},
+        {"name": "discontinued", "type": "bit", "description": "产品是否已停产，1表示停产，0表示在售。"}
+      ]
+    },
+    {
+      "table_name": "orders",
+      "description": "存储客户订单的主信息，包括下单客户、负责员工、发货信息等。每个订单有唯一的 order_id。",
+      "fields": [
+        {"name": "order_id", "type": "int", "description": "订单的唯一标识符。"},
+        {"name": "customer_id", "type": "nchar(5)", "description": "下单客户的唯一标识符，关联 customers 表。"},
+        {"name": "employee_id", "type": "int", "description": "负责该订单的员工唯一标识符，关联 employees 表。"},
+        {"name": "order_date", "type": "datetime", "description": "订单创建日期。"},
+        {"name": "required_date", "type": "datetime", "description": "客户要求交付的日期。"},
+        {"name": "shipped_date", "type": "datetime", "description": "实际发货日期。"},
+        {"name": "ship_via", "type": "int", "description": "承运商的唯一标识符，关联 shippers 表。"},
+        {"name": "freight", "type": "money", "description": "订单的运费金额。"},
+        {"name": "ship_name", "type": "nvarchar(40)", "description": "收货人名称。"},
+        {"name": "ship_address", "type": "nvarchar(60)", "description": "收货详细地址。"},
+        {"name": "ship_city", "type": "nvarchar(15)", "description": "收货城市。"},
+        {"name": "ship_region", "type": "nvarchar(15)", "description": "收货地区或省份，可能为空。"},
+        {"name": "ship_postal_code", "type": "nvarchar(10)", "description": "收货地址邮政编码。"},
+        {"name": "ship_country", "type": "nvarchar(15)", "description": "收货国家。"}
+      ]
+    },
+    {
+      "table_name": "order_details",
+      "description": "存储订单的明细信息（即每个订单的每个产品），包括产品、数量、价格和折扣等。联合 order_id 和 product_id 作为复合主键。",
+      "fields": [
+        {"name": "order_id", "type": "int", "description": "订单唯一标识符，关联 orders 表。"},
+        {"name": "product_id", "type": "int", "description": "产品唯一标识符，关联 products 表。"},
+        {"name": "unit_price", "type": "money", "description": "下单时产品的单价。"},
+        {"name": "quantity", "type": "smallint", "description": "本行产品的订购数量。"},
+        {"name": "discount", "type": "real", "description": "本行产品的折扣比例，0~1 之间的小数。"}
+      ]
+    },
+    {
+      "table_name": "shippers",
+      "description": "存储物流承运商信息，每个承运商有唯一的 shipper_id，用于订单发货。",
+      "fields": [
+        {"name": "shipper_id", "type": "int", "description": "承运商的唯一标识符。"},
+        {"name": "company_name", "type": "nvarchar(40)", "description": "承运商公司名称。"},
+        {"name": "phone", "type": "nvarchar(24)", "description": "承运商联系电话。"}
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": {"table": "orders", "field": "customer_id"},
+      "to": {"table": "customers", "field": "customer_id"},
+      "description": "每个订单都属于一个客户，通过 customer_id 关联 customers 表。"
+    },
+    {
+      "from": {"table": "orders", "field": "employee_id"},
+      "to": {"table": "employees", "field": "employee_id"},
+      "description": "每个订单由一名员工负责，通过 employee_id 关联 employees 表。"
+    },
+    {
+      "from": {"table": "orders", "field": "ship_via"},
+      "to": {"table": "shippers", "field": "shipper_id"},
+      "description": "每个订单的发货承运商，通过 ship_via 关联 shippers 表。"
+    },
+    {
+      "from": {"table": "order_details", "field": "order_id"},
+      "to": {"table": "orders", "field": "order_id"},
+      "description": "order_details 表中的每条明细都属于一个订单，通过 order_id 关联 orders 表。"
+    },
+    {
+      "from": {"table": "order_details", "field": "product_id"},
+      "to": {"table": "products", "field": "product_id"},
+      "description": "order_details 表中的每条明细都对应一个产品，通过 product_id 关联 products 表。"
+    },
+    {
+      "from": {"table": "products", "field": "supplier_id"},
+      "to": {"table": "suppliers", "field": "supplier_id"},
+      "description": "每个产品由一个供应商供货，通过 supplier_id 关联 suppliers 表。"
+    },
+    {
+      "from": {"table": "products", "field": "category_id"},
+      "to": {"table": "categories", "field": "category_id"},
+      "description": "每个产品属于一个类别，通过 category_id 关联 categories 表。"
+    },
+    {
+      "from": {"table": "employees", "field": "reports_to"},
+      "to": {"table": "employees", "field": "employee_id"},
+      "description": "员工之间的上下级关系，reports_to 指向上级员工的 employee_id。"
+    }
+  ]
+}
