@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nss.ApiService", "Nss.ApiSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nss.ConsoleApp", "Nss.ConsoleApp\Nss.ConsoleApp.csproj", "{BD3AF264-A386-4924-9EBA-6DC4B2DA7AD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nss.McpServer", "Nss.McpServer\Nss.McpServer.csproj", "{941FDB17-B03B-4595-9E2F-0B0395703F98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BD3AF264-A386-4924-9EBA-6DC4B2DA7AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD3AF264-A386-4924-9EBA-6DC4B2DA7AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD3AF264-A386-4924-9EBA-6DC4B2DA7AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{941FDB17-B03B-4595-9E2F-0B0395703F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{941FDB17-B03B-4595-9E2F-0B0395703F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{941FDB17-B03B-4595-9E2F-0B0395703F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{941FDB17-B03B-4595-9E2F-0B0395703F98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
