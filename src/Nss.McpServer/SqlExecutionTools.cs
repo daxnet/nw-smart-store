@@ -12,6 +12,7 @@ public sealed class SqlExecutionTools
         [Description("The SQL statement to be executed.")]
         string sqlStatement)
     {
+        Console.WriteLine("tool called.");
         await Task.CompletedTask;
         return string.Empty;
     }

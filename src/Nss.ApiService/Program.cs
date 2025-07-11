@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
+using ModelContextProtocol.Client;
 using Nss.ApiService.Services;
 using Qdrant.Client;
 using Scalar.AspNetCore;
@@ -15,6 +16,7 @@ var chatAiModelApiKey = builder.Configuration["nss:ai:chat:apikey"] ?? throw new
 var embeddingAiModelDeployment = builder.Configuration["nss:ai:embedding:deployment"] ?? throw new InvalidOperationException("Embedding AI model deployment is not configured.");
 var embeddingAiModelEndpoint = builder.Configuration["nss:ai:embedding:endpoint"] ?? throw new InvalidOperationException("Embedding AI model endpoint is not configured.");
 var embeddingAiModelApiKey = builder.Configuration["nss:ai:embedding:apikey"] ?? throw new InvalidOperationException("Embedding AI model API key is not configured.");
+var mcpServerEndpoint = builder.Configuration["nss:mcp:uri"] ?? throw new InvalidOperationException("MCP server URI is not configured.");
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom
@@ -28,7 +30,6 @@ builder.Services.AddControllers(config =>
 {
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
-
 
 builder.Services
     .AddOpenApi()
@@ -54,6 +55,15 @@ builder.Services
     .AddSingleton(_ => new QdrantClient(qdrantUri))
     .AddSingleton(_ =>
     {
+        var mcpClient = McpClientFactory.CreateAsync(new SseClientTransport(
+            new SseClientTransportOptions
+            {
+                Endpoint = new Uri(mcpServerEndpoint)
+            })).ConfigureAwait(false).GetAwaiter().GetResult();
+        return mcpClient.ListToolsAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+    })
+    .AddSingleton(sp =>
+    {
 #pragma warning disable SKEXP0010
         var kernel = Kernel.CreateBuilder()
             .AddAzureOpenAIChatCompletion(chatAiModelDeployment, chatAiModelEndpoint, chatAiModelApiKey)
@@ -61,6 +71,10 @@ builder.Services
                 embeddingAiModelApiKey)
 #pragma warning restore SKEXP0010
             .Build();
+        var tools = sp.GetRequiredService<IList<McpClientTool>>();
+#pragma warning disable SKEXP0001
+        kernel.Plugins.AddFromFunctions("NssMcpTools", tools.Select(t => t.AsKernelFunction()));
+#pragma warning restore SKEXP0001
         return kernel;
     })
     .AddSingleton(sp =>

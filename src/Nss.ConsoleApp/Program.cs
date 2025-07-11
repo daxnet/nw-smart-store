@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using ModelContextProtocol.Client;
 
 namespace Nss.ConsoleApp
 {
@@ -22,6 +23,8 @@ namespace Nss.ConsoleApp
                 Console.WriteLine();
                 Console.Write("> ");
                 var query = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 if (string.IsNullOrWhiteSpace(query))
                 {
                     continue;
@@ -37,6 +40,12 @@ namespace Nss.ConsoleApp
                     query.Equals("clear", StringComparison.OrdinalIgnoreCase))
                 {
                     Console.Clear();
+                }
+
+                if (query.Equals("list-tools", StringComparison.OrdinalIgnoreCase))
+                {
+                    await ListMcpToolsAsync();
+                    continue;
                 }
 
                 var request = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
@@ -56,7 +65,7 @@ namespace Nss.ConsoleApp
                 await using var stream = await response.Content.ReadAsStreamAsync();
                 using var reader = new StreamReader(stream);
 
-                Console.ForegroundColor = ConsoleColor.Gray;
+                
                 var buffer = new char[1024];
                 int read;
                 while ((read = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
@@ -71,6 +80,20 @@ namespace Nss.ConsoleApp
             Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("Done.");
+        }
+
+        static async Task ListMcpToolsAsync()
+        {
+            await using var mcpClient = await McpClientFactory.CreateAsync(new SseClientTransport(
+                new SseClientTransportOptions
+                {
+                    Endpoint = new Uri("http://localhost:5276")
+                }));
+            var tools = await mcpClient.ListToolsAsync();
+            foreach (var tool in tools)
+            {
+                Console.WriteLine($"Tool: {tool.Name} - {tool.Description}");
+            }
         }
     }
 }
