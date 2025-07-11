@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+<Layout Class="layout">
+    <Header>
+        <div class="logo" />
+        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Horizontal" DefaultSelectedKeys=@(new[] { "1" })>
+            <MenuItem Key="1">Home</MenuItem>
+        </Menu>
+    </Header>
+    <Content Style="padding: 50px;">
+        <div class="site-layout-content">@Body</div>
+    </Content>
+    <Footer Style="text-align: center; ">Northwind&trade; Smart Sales</Footer>
+</Layout>
+
+<style>
+    .site-layout-content {
+        background: #fff;
+        padding: 24px;
+        min-height: 280px;
+    }
+    #components-layout-demo-top .logo {
+        width: 120px;
+        height: 31px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px 24px 16px 0;
+        float: left;
+    }
+</style>
