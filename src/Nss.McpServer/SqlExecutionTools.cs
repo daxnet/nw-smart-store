@@ -16,7 +16,7 @@ public sealed class SqlExecutionTools(IConfiguration configuration, ILogger<SqlE
     {
         try
         {
-            logger.LogDebug("SQL statement to execute: {SqlStatement}", sqlStatement);
+            logger.LogDebug("SQL statement to execute: {SqlStatement}", sqlStatement.Replace("\n", " ").Replace("\r\n", " "));
             var connectionString = configuration["db:connectionString"];
             await using var npgsqlConnection = new NpgsqlConnection(connectionString);
             await npgsqlConnection.OpenAsync();

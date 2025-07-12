@@ -7,13 +7,6 @@ services:
     image: qdrant/qdrant:latest
     restart: always
     container_name: nss-qdrant
-    ports:
-      - 6333:6333
-      - 6334:6334
-    expose:
-      - 6333
-      - 6334
-      - 6335
     configs:
       - source: qdrant_config
         target: /qdrant/config/production.yaml
@@ -26,16 +19,54 @@ services:
       dockerfile: Dockerfile
     restart: always
     container_name: nss-pgsql
-    ports:
-      - 5432:5432
-    expose:
-      - 5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=nw_smart_store
     volumes:
       - postgresql_data:/var/lib/postgresql/data
+  nss-api:
+    image: daxnet/nss-api:latest
+    build:
+      context: ../src
+      dockerfile: Nss.ApiService/Dockerfile
+    restart: always
+    container_name: nss-api
+    ports:
+      - 5030:5030
+    environment:
+      - nss__ai__chat__deployment=${CHAT_DEPLOYMENT}
+      - nss__ai__chat__endpoint=${CHAT_ENDPOINT}
+      - nss__ai__chat__apikey=${CHAT_APIKEY}
+      - nss__ai__embedding__deployment=${EMBEDDING_DEPLOYMENT}
+      - nss__ai__embedding__endpoint=${EMBEDDING_ENDPOINT}
+      - nss__ai__embedding__apikey=${EMBEDDING_APIKEY}
+      - nss__qdrant__uri=nss-qdrant
+      - nss__mcp__uri=http://nss-mcp:5276
+    links:
+      - nss-qdrant
+      - nss-mcp
+  nss-mcp:
+    image: daxnet/nss-mcp:latest
+    build:
+      context: ../src
+      dockerfile: Nss.McpServer/Dockerfile
+    restart: always
+    container_name: nss-mcp
+    environment:
+      - db__connectionString=Server=nss-pgsql;Database=nw_smart_store;User Id=postgres;Password=postgres;TrustServerCertificate=True;
+      - Serilog__MinimumLevel__Default=Debug
+    links:
+      - nss-pgsql
+  nss-web:
+    image: daxnet/nss-web:latest
+    build:
+      context: ../src/Nss.WebApp
+      dockerfile: Dockerfile
+    restart: always
+    container_name: nss-web
+    ports:
+      - 8082:80
 
 configs:
   qdrant_config:

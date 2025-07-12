@@ -12,8 +12,7 @@ namespace Nss.ApiService.Controllers
     [Route("api/search")]
     public class SemanticSearchController(
         QdrantIndexService indexService,
-        SearchService searchService,
-        ILogger<SemanticSearchController> logger) : ControllerBase
+        SearchService searchService) : ControllerBase
     {
         [HttpPost("build-index")]
         public async Task<IActionResult> BuildIndexAsync([FromQuery] string lang = "en", [FromQuery] bool force = false)
@@ -40,5 +39,26 @@ namespace Nss.ApiService.Controllers
                 await Response.Body.FlushAsync();
             }
         }
+
+        //[HttpPost("mock")]
+        //public async Task MockQueryAsync([FromBody] QueryModel model)
+        //{
+        //    // This is a mock implementation for testing purposes.
+        //    // simply return the query in the model as a streamed response
+        //    if (string.IsNullOrEmpty(model.Query))
+        //    {
+        //        Response.StatusCode = StatusCodes.Status400BadRequest;
+        //        await Response.WriteAsync("Query cannot be null or empty.");
+        //        return;
+        //    }
+        //    Response.ContentType = "text/plain";
+        //    var returnStr = model.Query;
+        //    // return the returnStr char by char
+        //    foreach (var c in returnStr)
+        //    {
+        //        await Response.WriteAsync(c.ToString());
+        //        await Response.Body.FlushAsync();
+        //    }
+        //}
     }
 }
