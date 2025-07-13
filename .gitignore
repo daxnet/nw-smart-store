@@ -419,3 +419,6 @@ FodyWeavers.xsd
 
 # Custom environment variable files
 dev.env
+
+# Drawio backup
+*.drawio.bkp
